@@ -18,6 +18,7 @@ var (
 	ErrAlreadyClosed        = errors.New("Listener already closed")
 	errRestartListener      = errors.New("No listener for restart")
 	errListenerCloseTimeout = errors.New("Listener close timeout")
+	gs                      = GraceServer{ListenerCloseTimeout: 60}
 )
 
 const (
@@ -78,6 +79,18 @@ func GetListener(addr string) (l GracableListener, err error) {
 		err = nil
 	}
 	return
+}
+
+func SetListenerCloseTimeout(d time.Duration) {
+	gs.ListenerCloseTimeout = d
+}
+
+func ListenAndServe(addr string, handler http.Handler) (err error) {
+	return gs.ListenAndServe(addr, handler)
+}
+
+func Serve(l GracableListener, handler http.Handler) (err error) {
+	return gs.Serve(l, handler)
 }
 
 type gListener struct {
