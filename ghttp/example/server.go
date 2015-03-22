@@ -28,8 +28,6 @@ func main() {
 		fmt.Fprintf(w, "Welcome to the home page!"+strconv.Itoa(os.Getpid()))
 	})
 
-	http.HandleFunc("/srvctrl", ghttp.SrvCtrlhandler)
-
 	err = gs.Serve(gl, nil)
 	if err != nil {
 		log.Println(err)

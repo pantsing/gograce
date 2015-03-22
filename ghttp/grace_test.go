@@ -1,4 +1,4 @@
-package grace_test
+package ghttp_test
 
 import (
 	"fmt"
