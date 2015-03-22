@@ -1,2 +1,2 @@
 # GoGrace
-Gracefully restart your HTTP/TCP service
+Gracefully restart your Golang HTTP/TCP service
