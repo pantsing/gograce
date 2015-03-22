@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"testing"
+	"time"
 
 	"github.com/pantsing/gograce/ghttp"
 )
@@ -18,7 +19,7 @@ func TestListenAndServe(t *testing.T) {
 	})
 
 	var gs ghttp.GraceServer
-	gs.ListenerCloseTimeout = 60
+	gs.ListenerCloseTimeout = 60 * time.Second
 
 	err := gs.ListenAndServe(":6086", mux)
 	if err != nil {
@@ -33,7 +34,7 @@ func TestServer(t *testing.T) {
 	})
 
 	var gs ghttp.GraceServer
-	gs.ListenerCloseTimeout = 60
+	gs.ListenerCloseTimeout = 60 * time.Second
 
 	gl, err := ghttp.GetListener(":6087")
 	if err != nil {

@@ -18,7 +18,7 @@ var (
 	ErrAlreadyClosed        = errors.New("Listener already closed")
 	errRestartListener      = errors.New("No listener for restart")
 	errListenerCloseTimeout = errors.New("Listener close timeout")
-	gs                      = GraceServer{ListenerCloseTimeout: 60}
+	gs                      = GraceServer{ListenerCloseTimeout: 60 * time.Second}
 )
 
 const (
@@ -81,8 +81,8 @@ func GetListener(addr string) (l GracableListener, err error) {
 	return
 }
 
-func SetListenerCloseTimeout(d time.Duration) {
-	gs.ListenerCloseTimeout = d
+func SetListenerCloseTimeout(seconds int64) {
+	gs.ListenerCloseTimeout = time.Duration(seconds) * time.Second
 }
 
 func ListenAndServe(addr string, handler http.Handler) (err error) {
@@ -271,7 +271,7 @@ func (gs *GraceServer) closeListener() (err error) {
 		select {
 		case <-done:
 			// fmt.Println("wg.Wait done")
-		case <-time.After(gs.ListenerCloseTimeout * time.Second):
+		case <-time.After(gs.ListenerCloseTimeout):
 			return errListenerCloseTimeout
 		}
 	}

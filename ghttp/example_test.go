@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/pantsing/gograce/ghttp"
 )
@@ -15,6 +16,7 @@ func ExampleListenAndServe() {
 		fmt.Fprintf(w, "Welcome to the home page!"+strconv.Itoa(os.Getpid()))
 	})
 
+	ghttp.SetListenerCloseTimeout(60) // 60 seconds
 	err := ghttp.ListenAndServe(":6086", nil)
 	if err != nil {
 		log.Println(err)
@@ -23,7 +25,7 @@ func ExampleListenAndServe() {
 
 func ExampleServer() {
 	var gs ghttp.GraceServer
-	gs.ListenerCloseTimeout = 60
+	gs.ListenerCloseTimeout = 60 * time.Second
 
 	gl, err := ghttp.GetListener(":6086")
 	if err != nil {
